@@ -32,7 +32,6 @@ class LTSS(Base):  # type: ignore
     entity_id = Column(String(255))
     state = Column(String(255), index=True)
     attributes = Column(JSONB)
-    location = Column(Geometry('POINT', srid=4326))
 
     @staticmethod
     def from_event(event):
@@ -41,15 +40,12 @@ class LTSS(Base):  # type: ignore
         state = event.data.get("new_state")
 
         attrs = dict(state.attributes)
-        lat = attrs.pop('latitude', None)
-        lon = attrs.pop('longitude', None)
 
         row = LTSS(
             entity_id=entity_id,
             time=event.time_fired,
             state=state.state,
-            attributes=attrs,
-            location=f'SRID=4326;POINT({lon} {lat})' if lon and lat else None
+            attributes=attrs
         )
 
         return row

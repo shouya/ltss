@@ -279,9 +279,6 @@ class LTSS_DB(threading.Thread):
         # Make sure TimescaleDB  and PostGIS extensions are loaded
         with self.engine.connect() as con:
             con.execute(
-                text("CREATE EXTENSION IF NOT EXISTS postgis CASCADE"
-                ).execution_options(autocommit=True))
-            con.execute(
                 text("CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE"
                 ).execution_options(autocommit=True))
 
